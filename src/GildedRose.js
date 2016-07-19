@@ -45,13 +45,13 @@ function updateItemQuality(item) {
 const normalExtendedItem = {
     update: function() {
         decreaseSellInByOne(this);
-        if (!isQualityGreaterThan(0, this)) {
-            return;
-        }
-        decreaseQualityByOne(this);
+        this.decreaseQualityByOne();
         if (!isSellInLessThan(0, this)) {
             return;
         }
+        this.decreaseQualityByOne();
+    },
+    decreaseQualityByOne: function() {
         if (isQualityZero(this)) {
             return;
         }
