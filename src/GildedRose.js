@@ -29,15 +29,18 @@ function setQuality(item, value) {
 function isQualityGreaterThan(number, item) {
     return item.quality > number;
 }
-function isQualityLessThan50(item) {
-    return item.quality < 50;
-}
 function isSellInLessThan(number, item) {
     return item.sellIn < number;
 }
+function isQualityZero(item) {
+    return item.quality === 0;
+}
+function isQuality50(item) {
+    return item.quality === 50;
+}
 function updateItemQuality(item) {
-    item.onDayEnd();
     item.lowerSellInByOne();
+    item.onDayEnd();
     if (isSellInLessThan(0, item)) {
         item.onSellInLessThanZero();
     }
@@ -54,27 +57,22 @@ const normalExtendedItem = {
         decreaseSellInByOne(this);
     },
     onSellInLessThanZero: function() {
-        if (!isQualityGreaterThan(0, this)) {
+        if (isQualityZero(this)) {
             return;
         }
         decreaseQualityByOne(this);
     }
 };
 
-const sulfurasExtendedItem = Object.assign({}, normalExtendedItem, {
-    onDayEnd: function() {
-        if (!isQualityLessThan50(this)) {
-            return;
-        }
-        increaseQualityByOne(this);
-    },
+const sulfurasExtendedItem = {
+    onDayEnd: function() {},
     lowerSellInByOne: function() {},
     onSellInLessThanZero: function() {}
-});
+};
 
 const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
     onDayEnd: function() {
-        if (!isQualityLessThan50(this)) {
+        if (isQuality50(this)) {
             return;
         }
         this.increaseQualityByOne();
@@ -89,7 +87,7 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
         setQuality(this, 0);
     },
     increaseQualityByOne: function () {
-        if (!isQualityLessThan50(this)) {
+        if (isQuality50(this)) {
             return;
         }
         increaseQualityByOne(this);
@@ -98,7 +96,7 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
 
 const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
     onDayEnd: function() {
-        if (!isQualityLessThan50(this)) {
+        if (isQuality50(this)) {
             return;
         }
         this.increaseQualityByOne();
@@ -113,7 +111,7 @@ const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
         setQuality(this, 0);
     },
     increaseQualityByOne: function () {
-        if (!isQualityLessThan50(this)) {
+        if (isQuality50(this)) {
             return;
         }
         increaseQualityByOne(this);
