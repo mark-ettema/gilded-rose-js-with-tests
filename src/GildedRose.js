@@ -63,7 +63,7 @@ const sulfurasExtendedItem = {
     update: function() {}
 };
 
-const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
+const agedBrieExtendedItem = {
     update: function() {
         decreaseSellInByOne(this);
         if (isSellInLessThan(0, this)) {
@@ -86,9 +86,9 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
         }
         increaseQualityByOne(this);
     }
-});
+};
 
-const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
+const backstagePassesExtendedItem = {
     update: function() {
         decreaseSellInByOne(this);
         if (isSellInLessThan(0, this)) {
@@ -111,7 +111,7 @@ const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
         }
         increaseQualityByOne(this);
     }
-});
+};
 
 function extendItem(item) {
     const extendedItems = {
