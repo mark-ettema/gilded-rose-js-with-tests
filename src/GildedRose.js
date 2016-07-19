@@ -2,12 +2,6 @@ const AGED_BRIE = "Aged Brie";
 const SULFURAS = "Sulfuras, Hand of Ragnaros";
 const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 
-/*
- 2006-30-84
- Leeroy was here!!
-
- Leeroy <lerooy@example.com>
- */
 var GildedRose = function () {
     var items = [];
     items.push(new Item("+5 Dexterity Vest", 10, 20));
@@ -23,7 +17,6 @@ var GildedRose = function () {
 GildedRose.updateQuality = function (items) {
     for (var i = 0; i < items.length; i++) {
         if (AGED_BRIE != items[i].name && BACKSTAGE_PASSES != items[i].name) {
-            //TODO: Improve this code.
             if (items[i].quality > 0) {
                 if (SULFURAS != items[i].name) {
                     items[i].quality = items[i].quality - 1
@@ -45,7 +38,6 @@ GildedRose.updateQuality = function (items) {
                 }
                 if (BACKSTAGE_PASSES== items[i].name) {
                     if (items[i].sellIn < 11) {
-                        // See revision number 2394 on SVN.
                         if (items[i].quality < 50) {
                             items[i].quality = items[i].quality + 1
                         }
@@ -72,7 +64,6 @@ GildedRose.updateQuality = function (items) {
                         }
                     }
                 } else {
-                    //TODO: Fix this.
                     items[i].quality = items[i].quality - items[i].quality
                 }
             } else {
@@ -81,7 +72,7 @@ GildedRose.updateQuality = function (items) {
                 }
                 if (AGED_BRIE == items[i].name && items[i].sellIn <= 0)
                     items[i].quality = 0;
-            } // of for.
+            }
         }
         if (SULFURAS != items[i].name)
             if (items[i].quality > 50) items[i].quality = 50;
