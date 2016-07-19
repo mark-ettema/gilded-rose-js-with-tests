@@ -48,29 +48,7 @@ function isSellInLessOrEqualToZero(item) {
     return item.sellIn <= 0;
 }
 function updateItemQuality(item) {
-    if (!isAgedBrie(item) && !isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
-        decreaseQualityByOne(item);
-    } else {
-        if (isQualityLessThan50(item)) {
-            increaseQualityByOne(item);
-            if (isAgedBrie(item)) {
-                if (isSellInLessThan(6, item)) {
-                    increaseQualityByOne(item);
-                }
-                if (isSellInLessThan(11, item)) {
-                    increaseQualityByOne(item);
-                }
-            }
-            if (isBackstagePasses(item)) {
-                if (isSellInLessThan(11, item) && isQualityLessThan50(item)) {
-                    increaseQualityByOne(item);
-                }
-                if (isSellInLessThan(6, item) && isQualityLessThan50(item)) {
-                    increaseQualityByOne(item);
-                }
-            }
-        }
-    }
+    item.onDayEnd();
     item.lowerSellInByOne();
     if (isSellInLessThan(0, item)) {
         if (!isAgedBrie(item)) {
@@ -92,6 +70,12 @@ function updateItemQuality(item) {
     return item;
 }
 const normalExtendedItem = {
+    onDayEnd: function() {
+        if (!isQualityGreaterThan(0, this)) {
+            return;
+        }
+        decreaseQualityByOne(this);
+    },
     lowerSellInByOne: function() {
         decreaseSellInByOne(this);
     },
@@ -103,14 +87,52 @@ const normalExtendedItem = {
     }
 };
 
-const sulfurasExtendedItem = {
+const sulfurasExtendedItem = Object.assign({}, normalExtendedItem, {
+    onDayEnd: function() {
+        if (!isQualityLessThan50(this)) {
+            return;
+        }
+        increaseQualityByOne(this);
+    },
     lowerSellInByOne: function() {},
     setToMaxQualityIfHigher: function () {}
-};
+});
+
+const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
+    onDayEnd: function() {
+        if (!isQualityLessThan50(this)) {
+            return;
+        }
+        increaseQualityByOne(this);
+        if (isSellInLessThan(6, this)) {
+            increaseQualityByOne(this);
+        }
+        if (isSellInLessThan(11, this)) {
+            increaseQualityByOne(this);
+        }
+    }
+});
+
+const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
+    onDayEnd: function() {
+        if (!isQualityLessThan50(this)) {
+            return;
+        }
+        increaseQualityByOne(this);
+        if (isSellInLessThan(11, this) && isQualityLessThan50(this)) {
+            increaseQualityByOne(this);
+        }
+        if (isSellInLessThan(6, this) && isQualityLessThan50(this)) {
+            increaseQualityByOne(this);
+        }
+    }
+});
 
 function extendItem(item) {
     const extendedItems = {
-        [SULFURAS]: sulfurasExtendedItem
+        [SULFURAS]: sulfurasExtendedItem,
+        [AGED_BRIE]: agedBrieExtendedItem,
+        [BACKSTAGE_PASSES]: backstagePassesExtendedItem
     };
     const extendedItem = extendedItems[item.name] || normalExtendedItem;
     return Object.assign(item, extendedItem);
