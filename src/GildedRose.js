@@ -44,9 +44,6 @@ function isQualityLessThan50(item) {
 function isSellInLessThan(number, item) {
     return item.sellIn < number;
 }
-function isSellInLessOrEqualToZero(item) {
-    return item.sellIn <= 0;
-}
 function updateItemQuality(item) {
     item.onDayEnd();
     item.lowerSellInByOne();
@@ -115,10 +112,10 @@ const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
             return;
         }
         increaseQualityByOne(this);
-        if (isSellInLessThan(11, this) && isQualityLessThan50(this)) {
+        if (isSellInLessThan(11, this)) {
             increaseQualityByOne(this);
         }
-        if (isSellInLessThan(6, this) && isQualityLessThan50(this)) {
+        if (isSellInLessThan(6, this)) {
             increaseQualityByOne(this);
         }
     }
