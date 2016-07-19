@@ -69,9 +69,6 @@ const agedBrieExtendedItem = {
         if (isSellInLessThan(0, this)) {
             return setQuality(this, 0);
         }
-        if (isQuality50(this)) {
-            return;
-        }
         this.increaseQualityByOne();
         if (isSellInLessThan(6, this)) {
             this.increaseQualityByOne();
@@ -93,9 +90,6 @@ const backstagePassesExtendedItem = {
         decreaseSellInByOne(this);
         if (isSellInLessThan(0, this)) {
             return setQuality(this, 0);
-        }
-        if (isQuality50(this)) {
-            return;
         }
         this.increaseQualityByOne();
         if (isSellInLessThan(11, this)) {
