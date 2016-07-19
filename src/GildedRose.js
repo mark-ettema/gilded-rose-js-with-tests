@@ -49,9 +49,6 @@ function updateItemQuality(item) {
     item.lowerSellInByOne();
     if (isSellInLessThan(0, item)) {
         if (isAgedBrie(item)) {
-            if (isQualityLessThan50(item)) {
-                increaseQualityByOne(item);
-            }
             setQuality(item, 0);
         } else if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
             decreaseQualityByOne(item);
