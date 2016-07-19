@@ -41,9 +41,6 @@ function isQuality50(item) {
 function updateItemQuality(item) {
     item.lowerSellInByOne();
     item.onDayEnd();
-    if (isSellInLessThan(0, item)) {
-        item.onSellInLessThanZero();
-    }
     return item;
 }
 const normalExtendedItem = {
@@ -52,26 +49,29 @@ const normalExtendedItem = {
             return;
         }
         decreaseQualityByOne(this);
-    },
-    lowerSellInByOne: function() {
-        decreaseSellInByOne(this);
-    },
-    onSellInLessThanZero: function() {
+        if (!isSellInLessThan(0, this)) {
+            return;
+        }
         if (isQualityZero(this)) {
             return;
         }
         decreaseQualityByOne(this);
+    },
+    lowerSellInByOne: function() {
+        decreaseSellInByOne(this);
     }
 };
 
 const sulfurasExtendedItem = {
     onDayEnd: function() {},
-    lowerSellInByOne: function() {},
-    onSellInLessThanZero: function() {}
+    lowerSellInByOne: function() {}
 };
 
 const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
     onDayEnd: function() {
+        if (isSellInLessThan(0, this)) {
+            return setQuality(this, 0);
+        }
         if (isQuality50(this)) {
             return;
         }
@@ -82,9 +82,6 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
         if (isSellInLessThan(11, this)) {
             this.increaseQualityByOne();
         }
-    },
-    onSellInLessThanZero: function() {
-        setQuality(this, 0);
     },
     increaseQualityByOne: function () {
         if (isQuality50(this)) {
@@ -96,6 +93,9 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
 
 const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
     onDayEnd: function() {
+        if (isSellInLessThan(0, this)) {
+            return setQuality(this, 0);
+        }
         if (isQuality50(this)) {
             return;
         }
@@ -106,9 +106,6 @@ const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
         if (isSellInLessThan(6, this)) {
             this.increaseQualityByOne();
         }
-    },
-    onSellInLessThanZero: function() {
-        setQuality(this, 0);
     },
     increaseQualityByOne: function () {
         if (isQuality50(this)) {
