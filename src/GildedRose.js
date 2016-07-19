@@ -61,9 +61,7 @@ function updateItemQuality(item) {
             if (isQualityLessThan50(item)) {
                 increaseQualityByOne(item);
             }
-            if (isAgedBrie(item) && isSellInLessOrEqualToZero(item)) {
-                setQuality(item, 0);
-            }
+            setQuality(item, 0);
         }
     }
     item.setToMaxQualityIfHigher();
