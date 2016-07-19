@@ -39,12 +39,12 @@ function isQuality50(item) {
     return item.quality === 50;
 }
 function updateItemQuality(item) {
-    item.lowerSellInByOne();
-    item.onDayEnd();
+    item.update();
     return item;
 }
 const normalExtendedItem = {
-    onDayEnd: function() {
+    update: function() {
+        decreaseSellInByOne(this);
         if (!isQualityGreaterThan(0, this)) {
             return;
         }
@@ -56,19 +56,16 @@ const normalExtendedItem = {
             return;
         }
         decreaseQualityByOne(this);
-    },
-    lowerSellInByOne: function() {
-        decreaseSellInByOne(this);
     }
 };
 
 const sulfurasExtendedItem = {
-    onDayEnd: function() {},
-    lowerSellInByOne: function() {}
+    update: function() {}
 };
 
 const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
-    onDayEnd: function() {
+    update: function() {
+        decreaseSellInByOne(this);
         if (isSellInLessThan(0, this)) {
             return setQuality(this, 0);
         }
@@ -92,7 +89,8 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
 });
 
 const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
-    onDayEnd: function() {
+    update: function() {
+        decreaseSellInByOne(this);
         if (isSellInLessThan(0, this)) {
             return setQuality(this, 0);
         }
