@@ -48,13 +48,7 @@ function updateItemQuality(item) {
     item.onDayEnd();
     item.lowerSellInByOne();
     if (isSellInLessThan(0, item)) {
-        if (isAgedBrie(item)) {
-            setQuality(item, 0);
-        } else if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
-            decreaseQualityByOne(item);
-        } else {
-            setQuality(item, 0);
-        }
+        item.onSellInLessThanZero();
     }
     item.setToMaxQualityIfHigher();
     return item;
@@ -68,6 +62,12 @@ const normalExtendedItem = {
     },
     lowerSellInByOne: function() {
         decreaseSellInByOne(this);
+    },
+    onSellInLessThanZero: function() {
+        if (!isQualityGreaterThan(0, this)) {
+            return;
+        }
+        decreaseQualityByOne(this);
     },
     setToMaxQualityIfHigher: function () {
         if (!isQualityGreaterThan(50, this)) {
@@ -85,6 +85,7 @@ const sulfurasExtendedItem = Object.assign({}, normalExtendedItem, {
         increaseQualityByOne(this);
     },
     lowerSellInByOne: function() {},
+    onSellInLessThanZero: function() {},
     setToMaxQualityIfHigher: function () {}
 });
 
@@ -100,6 +101,9 @@ const agedBrieExtendedItem = Object.assign({}, normalExtendedItem, {
         if (isSellInLessThan(11, this)) {
             increaseQualityByOne(this);
         }
+    },
+    onSellInLessThanZero: function() {
+        setQuality(this, 0);
     }
 });
 
@@ -115,6 +119,9 @@ const backstagePassesExtendedItem = Object.assign({}, normalExtendedItem, {
         if (isSellInLessThan(6, this)) {
             increaseQualityByOne(this);
         }
+    },
+    onSellInLessThanZero: function() {
+        setQuality(this, 0);
     }
 });
 
