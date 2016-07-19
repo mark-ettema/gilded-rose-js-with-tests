@@ -26,15 +26,6 @@ function decreaseSellInByOne(item) {
 function setQuality(item, value) {
     item.quality = value;
 }
-function isAgedBrie(item) {
-    return AGED_BRIE === item.name;
-}
-function isBackstagePasses(item) {
-    return BACKSTAGE_PASSES === item.name;
-}
-function isSulfuras(item) {
-    return SULFURAS === item.name;
-}
 function isQualityGreaterThan(number, item) {
     return item.quality > number;
 }
