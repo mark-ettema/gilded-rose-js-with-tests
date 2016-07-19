@@ -26,8 +26,17 @@ function decreaseSellInByOne(item) {
 function setQuality(item, value) {
     item.quality = value;
 }
+function isAgedBrie(item) {
+    return AGED_BRIE === item.name;
+}
+function isBackstagePasses(item) {
+    return BACKSTAGE_PASSES === item.name;
+}
+function isSulfuras(item) {
+    return SULFURAS === item.name;
+}
 function updateItemQuality(item) {
-    if (AGED_BRIE != item.name && BACKSTAGE_PASSES != item.name) {
+    if (!isAgedBrie(item) && !isBackstagePasses(item)) {
         if (item.quality > 0) {
             if (SULFURAS != item.name) {
                 decreaseQualityByOne(item);
@@ -36,18 +45,18 @@ function updateItemQuality(item) {
     } else {
         if (item.quality < 50) {
             increaseQualityByOne(item);
-            if (AGED_BRIE == item.name) {
+            if (isAgedBrie(item)) {
                 if (item.sellIn < 6) {
                     increaseQualityByOne(item);
                 }
             }
             //Increases the Quality of the stinky cheese if its 11 days to due date.
-            if (AGED_BRIE == item.name) {
+            if (isAgedBrie(item)) {
                 if (item.sellIn < 11) {
                     increaseQualityByOne(item);
                 }
             }
-            if (BACKSTAGE_PASSES == item.name) {
+            if (isBackstagePasses(item)) {
                 if (item.sellIn < 11) {
                     if (item.quality < 50) {
                         increaseQualityByOne(item);
@@ -66,11 +75,11 @@ function updateItemQuality(item) {
         decreaseSellInByOne(item);
     }
     if (item.sellIn < 0) {
-        if (AGED_BRIE != item.name) {
-            if (BACKSTAGE_PASSES != item.name) {
+        if (!isAgedBrie(item)) {
+            if (!isBackstagePasses(item)) {
                 if (item.quality > 0) {
 
-                    if (SULFURAS != item.name) {
+                    if (!isSulfuras(item)) {
                         decreaseQualityByOne(item);
                     }
                 }
@@ -81,12 +90,12 @@ function updateItemQuality(item) {
             if (item.quality < 50) {
                 increaseQualityByOne(item);
             }
-            if (AGED_BRIE == item.name && item.sellIn <= 0) {
+            if (isAgedBrie(item) && item.sellIn <= 0) {
                 setQuality(item, 0);
             }
         }
     }
-    if (SULFURAS != item.name) {
+    if (!isSulfuras(item)) {
         if (item.quality > 50) {
             setQuality(item, 50);
         }
