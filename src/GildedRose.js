@@ -35,15 +35,21 @@ function isBackstagePasses(item) {
 function isSulfuras(item) {
     return SULFURAS === item.name;
 }
+function isQualityGreaterThan(number, item) {
+    return item.quality > number;
+}
+function isQualityLessThan50(item) {
+    return item.quality < 50;
+}
 function updateItemQuality(item) {
     if (!isAgedBrie(item) && !isBackstagePasses(item)) {
-        if (item.quality > 0) {
-            if (SULFURAS != item.name) {
+        if (isQualityGreaterThan(0, item)) {
+            if (!isSulfuras(item)) {
                 decreaseQualityByOne(item);
             }
         }
     } else {
-        if (item.quality < 50) {
+        if (isQualityLessThan50(item)) {
             increaseQualityByOne(item);
             if (isAgedBrie(item)) {
                 if (item.sellIn < 6) {
@@ -58,26 +64,26 @@ function updateItemQuality(item) {
             }
             if (isBackstagePasses(item)) {
                 if (item.sellIn < 11) {
-                    if (item.quality < 50) {
+                    if (isQualityLessThan50(item)) {
                         increaseQualityByOne(item);
                     }
                 }
                 //Increases the Quality of Backstage Passes if the Quality is 6 or less.
                 if (item.sellIn < 6) {
-                    if (item.quality < 50) {
+                    if (isQualityLessThan50(item)) {
                         increaseQualityByOne(item);
                     }
                 }
             }
         }
     }
-    if (SULFURAS != item.name) {
+    if (!isSulfuras(item)) {
         decreaseSellInByOne(item);
     }
     if (item.sellIn < 0) {
         if (!isAgedBrie(item)) {
             if (!isBackstagePasses(item)) {
-                if (item.quality > 0) {
+                if (isQualityGreaterThan(0, item)) {
 
                     if (!isSulfuras(item)) {
                         decreaseQualityByOne(item);
@@ -87,7 +93,7 @@ function updateItemQuality(item) {
                 setQuality(item, 0);
             }
         } else {
-            if (item.quality < 50) {
+            if (isQualityLessThan50(item)) {
                 increaseQualityByOne(item);
             }
             if (isAgedBrie(item) && item.sellIn <= 0) {
@@ -96,7 +102,7 @@ function updateItemQuality(item) {
         }
     }
     if (!isSulfuras(item)) {
-        if (item.quality > 50) {
+        if (isQualityGreaterThan(50, item)) {
             setQuality(item, 50);
         }
     }
