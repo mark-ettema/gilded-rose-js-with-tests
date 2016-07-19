@@ -14,44 +14,56 @@ var GildedRose = function () {
 };
 
 
+function decreaseQualityByOne(item) {
+    item.quality = item.quality - 1;
+}
+function increaseQualityByOne(item) {
+    item.quality = item.quality + 1;
+}
+function decreaseSellInByOne(item) {
+    item.sellIn = item.sellIn - 1;
+}
+function setQuality(item, value) {
+    item.quality = value;
+}
 function updateItemQuality(item) {
     if (AGED_BRIE != item.name && BACKSTAGE_PASSES != item.name) {
         if (item.quality > 0) {
             if (SULFURAS != item.name) {
-                item.quality = item.quality - 1;
+                decreaseQualityByOne(item);
             }
         }
     } else {
         if (item.quality < 50) {
-            item.quality = item.quality + 1;
+            increaseQualityByOne(item);
             if (AGED_BRIE == item.name) {
                 if (item.sellIn < 6) {
-                    item.quality = item.quality + 1;
+                    increaseQualityByOne(item);
                 }
             }
             //Increases the Quality of the stinky cheese if its 11 days to due date.
             if (AGED_BRIE == item.name) {
                 if (item.sellIn < 11) {
-                    item.quality = item.quality + 1;
+                    increaseQualityByOne(item);
                 }
             }
             if (BACKSTAGE_PASSES == item.name) {
                 if (item.sellIn < 11) {
                     if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+                        increaseQualityByOne(item);
                     }
                 }
                 //Increases the Quality of Backstage Passes if the Quality is 6 or less.
                 if (item.sellIn < 6) {
                     if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+                        increaseQualityByOne(item);
                     }
                 }
             }
         }
     }
     if (SULFURAS != item.name) {
-        item.sellIn = item.sellIn - 1;
+        decreaseSellInByOne(item);
     }
     if (item.sellIn < 0) {
         if (AGED_BRIE != item.name) {
@@ -59,23 +71,25 @@ function updateItemQuality(item) {
                 if (item.quality > 0) {
 
                     if (SULFURAS != item.name) {
-                        item.quality = item.quality - 1;
+                        decreaseQualityByOne(item);
                     }
                 }
             } else {
-                item.quality = item.quality - item.quality;
+                setQuality(item, 0);
             }
         } else {
             if (item.quality < 50) {
-                item.quality = item.quality + 1;
+                increaseQualityByOne(item);
             }
             if (AGED_BRIE == item.name && item.sellIn <= 0) {
-                item.quality = 0;
+                setQuality(item, 0);
             }
         }
     }
     if (SULFURAS != item.name) {
-        if (item.quality > 50) item.quality = 50;
+        if (item.quality > 50) {
+            setQuality(item, 50);
+        }
     }
     return item;
 }
