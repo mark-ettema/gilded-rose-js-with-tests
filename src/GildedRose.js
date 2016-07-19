@@ -56,12 +56,10 @@ function updateItemQuality(item) {
                 increaseQualityByOne(item);
             }
             setQuality(item, 0);
+        } else if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
+            decreaseQualityByOne(item);
         } else {
-            if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
-                decreaseQualityByOne(item);
-            } else {
-                setQuality(item, 0);
-            }
+            setQuality(item, 0);
         }
     }
     item.setToMaxQualityIfHigher();
