@@ -71,9 +71,7 @@ function updateItemQuality(item) {
             }
         }
     }
-    if (!isSulfuras(item)) {
-        decreaseSellInByOne(item);
-    }
+    item.lowerSellInByOne();
     if (isSellInLessThan(0, item)) {
         if (!isAgedBrie(item)) {
             if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
@@ -90,11 +88,36 @@ function updateItemQuality(item) {
             }
         }
     }
-    if (!isSulfuras(item) && isQualityGreaterThan(50, item)) {
-        setQuality(item, 50);
-    }
+    item.setToMaxQualityIfHigher();
     return item;
 }
+const normalExtendedItem = {
+    lowerSellInByOne: function() {
+        decreaseSellInByOne(this);
+    },
+    setToMaxQualityIfHigher: function () {
+        if (!isQualityGreaterThan(50, this)) {
+            return;
+        }
+        setQuality(this, 50);
+    }
+};
+
+const sulfurasExtendedItem = {
+    lowerSellInByOne: function() {},
+    setToMaxQualityIfHigher: function () {}
+};
+
+function extendItem(item) {
+    const extendedItems = {
+        [SULFURAS]: sulfurasExtendedItem
+    };
+    const extendedItem = extendedItems[item.name] || normalExtendedItem;
+    return Object.assign(item, extendedItem);
+}
+
 GildedRose.updateQuality = function (items) {
-    return items.map(updateItemQuality);
+    return items
+        .map(extendItem)
+        .map(updateItemQuality);
 };
