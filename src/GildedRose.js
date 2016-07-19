@@ -61,8 +61,6 @@ function updateItemQuality(item) {
                 if (isSellInLessThan(6, item)) {
                     increaseQualityByOne(item);
                 }
-            }
-            if (isAgedBrie(item)) {
                 if (isSellInLessThan(11, item)) {
                     increaseQualityByOne(item);
                 }
