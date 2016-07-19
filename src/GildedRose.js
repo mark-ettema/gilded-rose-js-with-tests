@@ -41,6 +41,12 @@ function isQualityGreaterThan(number, item) {
 function isQualityLessThan50(item) {
     return item.quality < 50;
 }
+function isSellInLessThan(number, item) {
+    return item.sellIn < number;
+}
+function isSellInLessOrEqualToZero(item) {
+    return item.sellIn <= 0;
+}
 function updateItemQuality(item) {
     if (!isAgedBrie(item) && !isBackstagePasses(item)) {
         if (isQualityGreaterThan(0, item)) {
@@ -52,24 +58,22 @@ function updateItemQuality(item) {
         if (isQualityLessThan50(item)) {
             increaseQualityByOne(item);
             if (isAgedBrie(item)) {
-                if (item.sellIn < 6) {
+                if (isSellInLessThan(6, item)) {
                     increaseQualityByOne(item);
                 }
             }
-            //Increases the Quality of the stinky cheese if its 11 days to due date.
             if (isAgedBrie(item)) {
-                if (item.sellIn < 11) {
+                if (isSellInLessThan(11, item)) {
                     increaseQualityByOne(item);
                 }
             }
             if (isBackstagePasses(item)) {
-                if (item.sellIn < 11) {
+                if (isSellInLessThan(11, item)) {
                     if (isQualityLessThan50(item)) {
                         increaseQualityByOne(item);
                     }
                 }
-                //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-                if (item.sellIn < 6) {
+                if (isSellInLessThan(6, item)) {
                     if (isQualityLessThan50(item)) {
                         increaseQualityByOne(item);
                     }
@@ -80,7 +84,7 @@ function updateItemQuality(item) {
     if (!isSulfuras(item)) {
         decreaseSellInByOne(item);
     }
-    if (item.sellIn < 0) {
+    if (isSellInLessThan(0, item)) {
         if (!isAgedBrie(item)) {
             if (!isBackstagePasses(item)) {
                 if (isQualityGreaterThan(0, item)) {
@@ -96,7 +100,7 @@ function updateItemQuality(item) {
             if (isQualityLessThan50(item)) {
                 increaseQualityByOne(item);
             }
-            if (isAgedBrie(item) && item.sellIn <= 0) {
+            if (isAgedBrie(item) && isSellInLessOrEqualToZero(item)) {
                 setQuality(item, 0);
             }
         }
