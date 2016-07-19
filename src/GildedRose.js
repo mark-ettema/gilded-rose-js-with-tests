@@ -48,12 +48,8 @@ function isSellInLessOrEqualToZero(item) {
     return item.sellIn <= 0;
 }
 function updateItemQuality(item) {
-    if (!isAgedBrie(item) && !isBackstagePasses(item)) {
-        if (isQualityGreaterThan(0, item)) {
-            if (!isSulfuras(item)) {
-                decreaseQualityByOne(item);
-            }
-        }
+    if (!isAgedBrie(item) && !isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
+        decreaseQualityByOne(item);
     } else {
         if (isQualityLessThan50(item)) {
             increaseQualityByOne(item);
@@ -66,15 +62,11 @@ function updateItemQuality(item) {
                 }
             }
             if (isBackstagePasses(item)) {
-                if (isSellInLessThan(11, item)) {
-                    if (isQualityLessThan50(item)) {
-                        increaseQualityByOne(item);
-                    }
+                if (isSellInLessThan(11, item) && isQualityLessThan50(item)) {
+                    increaseQualityByOne(item);
                 }
-                if (isSellInLessThan(6, item)) {
-                    if (isQualityLessThan50(item)) {
-                        increaseQualityByOne(item);
-                    }
+                if (isSellInLessThan(6, item) && isQualityLessThan50(item)) {
+                    increaseQualityByOne(item);
                 }
             }
         }
@@ -84,13 +76,8 @@ function updateItemQuality(item) {
     }
     if (isSellInLessThan(0, item)) {
         if (!isAgedBrie(item)) {
-            if (!isBackstagePasses(item)) {
-                if (isQualityGreaterThan(0, item)) {
-
-                    if (!isSulfuras(item)) {
-                        decreaseQualityByOne(item);
-                    }
-                }
+            if (!isBackstagePasses(item) && !isSulfuras(item) && isQualityGreaterThan(0, item)) {
+                decreaseQualityByOne(item);
             } else {
                 setQuality(item, 0);
             }
@@ -103,10 +90,8 @@ function updateItemQuality(item) {
             }
         }
     }
-    if (!isSulfuras(item)) {
-        if (isQualityGreaterThan(50, item)) {
-            setQuality(item, 50);
-        }
+    if (!isSulfuras(item) && isQualityGreaterThan(50, item)) {
+        setQuality(item, 50);
     }
     return item;
 }
