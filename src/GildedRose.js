@@ -16,6 +16,24 @@ const normalExtendedItem = {
     }
 };
 
+const conjuredExtendedItem = {
+    minQuality: 0,
+    update() {
+        this.sellIn -= 1;
+        this.decreaseQualityByTwo();
+        if (this.sellIn > 0) {
+            return;
+        }
+        this.decreaseQualityByTwo();
+    },
+    decreaseQualityByTwo() {
+        if (this.quality - 2 < this.minQuality) {
+            this.quality = this.minQuality;
+        }
+        this.quality -= 2;
+    }
+};
+
 const sulfurasExtendedItem = {
     update() {}
 };
@@ -78,7 +96,8 @@ const GildedRose = {
         const itemNameToExtendedItem = {
             'Sulfuras, Hand of Ragnaros': sulfurasExtendedItem,
             'Aged Brie': agedBrieExtendedItem,
-            'Backstage passes to a TAFKAL80ETC concert': backstagePassesExtendedItem
+            'Backstage passes to a TAFKAL80ETC concert': backstagePassesExtendedItem,
+            'Conjured': conjuredExtendedItem
         };
         const extendedItem = itemNameToExtendedItem[item.name] || normalExtendedItem;
         return Object.assign({}, item, extendedItem);
