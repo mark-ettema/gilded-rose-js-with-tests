@@ -13,49 +13,26 @@ var GildedRose = function () {
     GildedRose.updateQuality(items);
 };
 
-
-function decreaseQualityByOne(item) {
-    item.quality = item.quality - 1;
-}
-function increaseQualityByOne(item) {
-    item.quality = item.quality + 1;
-}
-function decreaseSellInByOne(item) {
-    item.sellIn = item.sellIn - 1;
-}
-function setQuality(item, value) {
-    item.quality = value;
-}
-function isQualityGreaterThan(number, item) {
-    return item.quality > number;
-}
-function isSellInLessThan(number, item) {
-    return item.sellIn < number;
-}
-function isQualityZero(item) {
-    return item.quality === 0;
-}
-function isQuality50(item) {
-    return item.quality === 50;
-}
 function updateItemQuality(item) {
     item.update();
     return item;
 }
+
 const normalExtendedItem = {
+    minQuality: 0,
     update: function() {
-        decreaseSellInByOne(this);
+        this.sellIn -= 1;
         this.decreaseQualityByOne();
-        if (!isSellInLessThan(0, this)) {
+        if (this.sellIn > 0) {
             return;
         }
         this.decreaseQualityByOne();
     },
     decreaseQualityByOne: function() {
-        if (isQualityZero(this)) {
+        if (this.quality === this.minQuality) {
             return;
         }
-        decreaseQualityByOne(this);
+        this.quality -= 1;
     }
 };
 
@@ -64,46 +41,50 @@ const sulfurasExtendedItem = {
 };
 
 const agedBrieExtendedItem = {
+    maxQuality: 50,
     update: function() {
-        decreaseSellInByOne(this);
-        if (isSellInLessThan(0, this)) {
-            return setQuality(this, 0);
+        this.sellIn -= 1;
+        if (this.sellIn < 0) {
+            this.quality = 0;
+            return;
         }
         this.increaseQualityByOne();
-        if (isSellInLessThan(6, this)) {
+        if (this.sellIn < 6) {
             this.increaseQualityByOne();
         }
-        if (isSellInLessThan(11, this)) {
+        if (this.sellIn < 11) {
             this.increaseQualityByOne();
         }
     },
     increaseQualityByOne: function () {
-        if (isQuality50(this)) {
+        if (this.quality === this.maxQuality) {
             return;
         }
-        increaseQualityByOne(this);
+        this.quality += 1;
     }
 };
 
 const backstagePassesExtendedItem = {
+    maxQuality: 50,
     update: function() {
-        decreaseSellInByOne(this);
-        if (isSellInLessThan(0, this)) {
-            return setQuality(this, 0);
+        this.sellIn -= 1;
+        if (this.sellIn < 0) {
+            this.quality = 0;
+            return;
         }
         this.increaseQualityByOne();
-        if (isSellInLessThan(11, this)) {
+        if (this.sellIn < 6) {
             this.increaseQualityByOne();
         }
-        if (isSellInLessThan(6, this)) {
+        if (this.sellIn < 11) {
             this.increaseQualityByOne();
         }
     },
     increaseQualityByOne: function () {
-        if (isQuality50(this)) {
+        if (this.quality === this.maxQuality) {
             return;
         }
-        increaseQualityByOne(this);
+        this.quality += 1;
     }
 };
 
