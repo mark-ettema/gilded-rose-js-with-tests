@@ -1,7 +1,3 @@
-const AGED_BRIE = "Aged Brie";
-const SULFURAS = "Sulfuras, Hand of Ragnaros";
-const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
-
 const normalExtendedItem = {
     minQuality: 0,
     update() {
@@ -79,12 +75,12 @@ const GildedRose = {
             .map(this.updateItemQuality);
     },
     extendItem(item) {
-        const extendedItems = {
-            [SULFURAS]: sulfurasExtendedItem,
-            [AGED_BRIE]: agedBrieExtendedItem,
-            [BACKSTAGE_PASSES]: backstagePassesExtendedItem
+        const itemNameToExtendedItem = {
+            'Sulfuras, Hand of Ragnaros': sulfurasExtendedItem,
+            'Aged Brie': agedBrieExtendedItem,
+            'Backstage passes to a TAFKAL80ETC concert': backstagePassesExtendedItem
         };
-        const extendedItem = extendedItems[item.name] || normalExtendedItem;
+        const extendedItem = itemNameToExtendedItem[item.name] || normalExtendedItem;
         return Object.assign({}, item, extendedItem);
     },
     updateItemQuality(item) {
