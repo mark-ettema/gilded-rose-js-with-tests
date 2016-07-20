@@ -1,12 +1,19 @@
+function createEmptyArray(number) {
+    return new Array(number).fill(undefined);
+}
+
 const normalExtendedItem = {
     minQuality: 0,
     update() {
         this.sellIn -= 1;
-        this.decreaseQualityByOne();
         if (this.sellIn > 0) {
-            return;
+            return this.decreaseQuality(1);
         }
-        this.decreaseQualityByOne();
+        this.decreaseQuality(2);
+    },
+    decreaseQuality(number) {
+        createEmptyArray(number)
+            .forEach(() => this.decreaseQualityByOne());
     },
     decreaseQualityByOne() {
         if (this.quality === this.minQuality) {
@@ -20,17 +27,20 @@ const conjuredExtendedItem = {
     minQuality: 0,
     update() {
         this.sellIn -= 1;
-        this.decreaseQualityByTwo();
         if (this.sellIn > 0) {
+            return this.decreaseQuality(2);
+        }
+        this.decreaseQuality(4);
+    },
+    decreaseQuality(number) {
+        createEmptyArray(number)
+            .forEach(() => this.decreaseQualityByOne());
+    },
+    decreaseQualityByOne() {
+        if (this.quality === this.minQuality) {
             return;
         }
-        this.decreaseQualityByTwo();
-    },
-    decreaseQualityByTwo() {
-        if (this.quality - 2 < this.minQuality) {
-            this.quality = this.minQuality;
-        }
-        this.quality -= 2;
+        this.quality -= 1;
     }
 };
 
@@ -43,18 +53,21 @@ const agedBrieExtendedItem = {
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
-            this.quality = 0;
-            return;
+            return this.quality = 0;
         }
-        this.increaseQualityByOne();
         if (this.sellIn < 6) {
-            this.increaseQualityByOne();
+            return this.increaseQuality(3);
         }
         if (this.sellIn < 11) {
-            this.increaseQualityByOne();
+            return this.increaseQuality(2);
         }
+        this.increaseQuality(1);
     },
-    increaseQualityByOne () {
+    increaseQuality(number) {
+        createEmptyArray(number)
+            .forEach(() => this.increaseQualityByOne());
+    },
+    increaseQualityByOne() {
         if (this.quality === this.maxQuality) {
             return;
         }
@@ -67,16 +80,19 @@ const backstagePassesExtendedItem = {
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
-            this.quality = 0;
-            return;
+            return this.quality = 0;
         }
-        this.increaseQualityByOne();
         if (this.sellIn < 6) {
-            this.increaseQualityByOne();
+            return this.increaseQuality(3);
         }
         if (this.sellIn < 11) {
-            this.increaseQualityByOne();
+            return this.increaseQuality(2);
         }
+        this.increaseQuality(1);
+    },
+    increaseQuality(number) {
+        createEmptyArray(number)
+            .forEach(() => this.increaseQualityByOne());
     },
     increaseQualityByOne() {
         if (this.quality === this.maxQuality) {
