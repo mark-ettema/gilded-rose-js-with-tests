@@ -95,7 +95,7 @@ function extendItem(item) {
         [BACKSTAGE_PASSES]: backstagePassesExtendedItem
     };
     const extendedItem = extendedItems[item.name] || normalExtendedItem;
-    return Object.assign(item, extendedItem);
+    return Object.assign({}, item, extendedItem);
 }
 
 GildedRose.updateQuality = function (items) {
