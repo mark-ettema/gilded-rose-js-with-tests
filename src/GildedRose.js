@@ -2,16 +2,7 @@ const AGED_BRIE = "Aged Brie";
 const SULFURAS = "Sulfuras, Hand of Ragnaros";
 const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 
-var GildedRose = function () {
-    var items = [];
-    items.push(new Item("+5 Dexterity Vest", 10, 20));
-    items.push(new Item(AGED_BRIE, 2, 0));
-    items.push(new Item("Elixir of the Mongoose", 5, 7));
-    items.push(new Item(SULFURAS, 0, 80));
-    items.push(new Item(BACKSTAGE_PASSES, 15, 20));
-    items.push(new Item("Conjured Mana Cake", 3, 6));
-    GildedRose.updateQuality(items);
-};
+const GildedRose = {};
 
 function updateItemQuality(item) {
     item.update();
