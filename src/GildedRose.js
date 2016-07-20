@@ -1,9 +1,34 @@
+/**
+ * @typedef     {Object}    Item
+ * @property    {String}    name
+ * @property    {Number}    sellIn
+ * @property    {Number}    quality
+ */
+
+/**
+ * @typedef     {Object}    ExtendedItem
+ * @property    {String}    name
+ * @property    {Number}    sellIn
+ * @property    {Number}    quality
+ * @property    {Function}  update
+ * @property    {Number}    [minQuality]
+ * @property    {Number}    [maxQuality]
+ */
+
+/**
+ * @param   {Number}                number
+ * @returns {Array.<undefined>}
+ */
 function createEmptyArray(number) {
     return new Array(number).fill(undefined);
 }
 
 const normalExtendedItem = {
+    /**
+     * @const
+     */
     minQuality: 0,
+
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
@@ -11,10 +36,15 @@ const normalExtendedItem = {
         }
         this.decreaseQuality(2);
     },
+
+    /**
+     * @param {Number}  number
+     */
     decreaseQuality(number) {
         createEmptyArray(number)
             .forEach(() => this.decreaseQualityByOne());
     },
+
     decreaseQualityByOne() {
         if (this.quality === this.minQuality) {
             return;
@@ -24,7 +54,11 @@ const normalExtendedItem = {
 };
 
 const conjuredExtendedItem = {
+    /**
+     * @const
+     */
     minQuality: 0,
+
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
@@ -32,10 +66,15 @@ const conjuredExtendedItem = {
         }
         this.decreaseQuality(4);
     },
+
+    /**
+     * @param {Number}  number
+     */
     decreaseQuality(number) {
         createEmptyArray(number)
             .forEach(() => this.decreaseQualityByOne());
     },
+
     decreaseQualityByOne() {
         if (this.quality === this.minQuality) {
             return;
@@ -49,7 +88,11 @@ const sulfurasExtendedItem = {
 };
 
 const agedBrieExtendedItem = {
+    /**
+     * @const
+     */
     maxQuality: 50,
+
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
@@ -63,10 +106,15 @@ const agedBrieExtendedItem = {
         }
         this.increaseQuality(1);
     },
+
+    /**
+     * @param {Number}  number
+     */
     increaseQuality(number) {
         createEmptyArray(number)
             .forEach(() => this.increaseQualityByOne());
     },
+
     increaseQualityByOne() {
         if (this.quality === this.maxQuality) {
             return;
@@ -76,7 +124,11 @@ const agedBrieExtendedItem = {
 };
 
 const backstagePassesExtendedItem = {
+    /**
+     * @const
+     */
     maxQuality: 50,
+
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
@@ -90,10 +142,15 @@ const backstagePassesExtendedItem = {
         }
         this.increaseQuality(1);
     },
+
+    /**
+     * @param {Number}  number
+     */
     increaseQuality(number) {
         createEmptyArray(number)
             .forEach(() => this.increaseQualityByOne());
     },
+
     increaseQualityByOne() {
         if (this.quality === this.maxQuality) {
             return;
@@ -103,11 +160,20 @@ const backstagePassesExtendedItem = {
 };
 
 const GildedRose = {
+    /**
+     * @param   {Array.<Item>}          items
+     * @returns {Array.<ExtendedItem>}
+     */
     updateQuality(items) {
         return items
             .map(this.extendItem)
             .map(this.updateItemQuality);
     },
+
+    /**
+     * @param   {Item}          item
+     * @returns {ExtendedItem}
+     */
     extendItem(item) {
         const itemNameToExtendedItem = {
             'Sulfuras, Hand of Ragnaros': sulfurasExtendedItem,
@@ -118,6 +184,11 @@ const GildedRose = {
         const extendedItem = itemNameToExtendedItem[item.name] || normalExtendedItem;
         return Object.assign({}, item, extendedItem);
     },
+
+    /**
+     * @param   {ExtendedItem}  item
+     * @returns {ExtendedItem}
+     */
     updateItemQuality(item) {
         item.update();
         return item;
