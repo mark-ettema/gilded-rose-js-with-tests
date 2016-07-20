@@ -20,7 +20,7 @@ function updateItemQuality(item) {
 
 const normalExtendedItem = {
     minQuality: 0,
-    update: function() {
+    update() {
         this.sellIn -= 1;
         this.decreaseQualityByOne();
         if (this.sellIn > 0) {
@@ -28,7 +28,7 @@ const normalExtendedItem = {
         }
         this.decreaseQualityByOne();
     },
-    decreaseQualityByOne: function() {
+    decreaseQualityByOne() {
         if (this.quality === this.minQuality) {
             return;
         }
@@ -37,12 +37,12 @@ const normalExtendedItem = {
 };
 
 const sulfurasExtendedItem = {
-    update: function() {}
+    update() {}
 };
 
 const agedBrieExtendedItem = {
     maxQuality: 50,
-    update: function() {
+    update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
             this.quality = 0;
@@ -56,7 +56,7 @@ const agedBrieExtendedItem = {
             this.increaseQualityByOne();
         }
     },
-    increaseQualityByOne: function () {
+    increaseQualityByOne () {
         if (this.quality === this.maxQuality) {
             return;
         }
@@ -66,7 +66,7 @@ const agedBrieExtendedItem = {
 
 const backstagePassesExtendedItem = {
     maxQuality: 50,
-    update: function() {
+    update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
             this.quality = 0;
@@ -80,7 +80,7 @@ const backstagePassesExtendedItem = {
             this.increaseQualityByOne();
         }
     },
-    increaseQualityByOne: function () {
+    increaseQualityByOne() {
         if (this.quality === this.maxQuality) {
             return;
         }
