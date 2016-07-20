@@ -2,13 +2,6 @@ const AGED_BRIE = "Aged Brie";
 const SULFURAS = "Sulfuras, Hand of Ragnaros";
 const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 
-const GildedRose = {};
-
-function updateItemQuality(item) {
-    item.update();
-    return item;
-}
-
 const normalExtendedItem = {
     minQuality: 0,
     update() {
@@ -79,18 +72,23 @@ const backstagePassesExtendedItem = {
     }
 };
 
-function extendItem(item) {
-    const extendedItems = {
-        [SULFURAS]: sulfurasExtendedItem,
-        [AGED_BRIE]: agedBrieExtendedItem,
-        [BACKSTAGE_PASSES]: backstagePassesExtendedItem
-    };
-    const extendedItem = extendedItems[item.name] || normalExtendedItem;
-    return Object.assign({}, item, extendedItem);
-}
-
-GildedRose.updateQuality = function (items) {
-    return items
-        .map(extendItem)
-        .map(updateItemQuality);
+const GildedRose = {
+    updateQuality(items) {
+        return items
+            .map(this.extendItem)
+            .map(this.updateItemQuality);
+    },
+    extendItem(item) {
+        const extendedItems = {
+            [SULFURAS]: sulfurasExtendedItem,
+            [AGED_BRIE]: agedBrieExtendedItem,
+            [BACKSTAGE_PASSES]: backstagePassesExtendedItem
+        };
+        const extendedItem = extendedItems[item.name] || normalExtendedItem;
+        return Object.assign({}, item, extendedItem);
+    },
+    updateItemQuality(item) {
+        item.update();
+        return item;
+    }
 };
