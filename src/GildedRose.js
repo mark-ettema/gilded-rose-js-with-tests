@@ -26,13 +26,20 @@ class BaseItem {
         /**
          * @type {Number}
          */
-        this.sellIn = config.sellIn;
+        this._sellIn = config.sellIn;
 
         /**
          * @type {Number}
          * @private
          */
         this._quality = config.quality;
+    }
+
+    /**
+     * @public
+     */
+    update() {
+        this.sellIn -= 1;
     }
 
     /**
@@ -48,6 +55,23 @@ class BaseItem {
     set quality(value) {
         this._quality = value;
     }
+
+    /**
+     * @returns {Number}
+     */
+    get sellIn() {
+        return this._sellIn;
+    }
+
+    /**
+     * @param {Number} value
+     */
+    set sellIn(value) {
+        this._sellIn = value;
+        this.onSellInChanged();
+    }
+
+    onSellInChanged() {}
 }
 
 class NormalItem extends BaseItem {
@@ -63,11 +87,7 @@ class NormalItem extends BaseItem {
         this.minQuality = 0;
     }
 
-    /**
-     * @public
-     */
-    update() {
-        this.sellIn -= 1;
+    onSellInChanged() {
         if (this.sellIn > 0) {
             return this.quality -= 1;
         }
@@ -105,11 +125,7 @@ class ConjuredItem extends BaseItem {
         this.minQuality = 0;
     }
 
-    /**
-     * @public
-     */
-    update() {
-        this.sellIn -= 1;
+    onSellInChanged() {
         if (this.sellIn > 0) {
             return this.quality -= 2;
         }
@@ -154,11 +170,7 @@ class AgedBrieItem extends BaseItem {
         this.maxQuality = 50;
     }
 
-    /**
-     * @public
-     */
-    update() {
-        this.sellIn -= 1;
+    onSellInChanged() {
         if (this.sellIn < 0) {
             return this.quality = 0;
         }
@@ -202,11 +214,7 @@ class BackstagePassesItem extends BaseItem {
         this.maxQuality = 50;
     }
 
-    /**
-     * @public
-     */
-    update() {
-        this.sellIn -= 1;
+    onSellInChanged() {
         if (this.sellIn < 0) {
             return this.quality = 0;
         }
