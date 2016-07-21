@@ -6,16 +6,6 @@
  */
 
 /**
- * @typedef     {Object}    ExtendedItem
- * @property    {String}    name
- * @property    {Number}    sellIn
- * @property    {Number}    quality
- * @property    {Function}  update
- * @property    {Number}    [minQuality]
- * @property    {Number}    [maxQuality]
- */
-
-/**
  * @param   {Number}                number
  * @returns {Array.<undefined>}
  */
@@ -23,11 +13,23 @@ function createEmptyArray(number) {
     return new Array(number).fill(undefined);
 }
 
-const normalExtendedItem = {
-    /**
-     * @const
-     */
-    minQuality: 0,
+class BaseItem {
+    constructor(item) {
+        this.name = item.name;
+        this.sellIn = item.sellIn;
+        this._quality = item.quality;
+    }
+}
+
+class NormalItem extends BaseItem {
+    constructor(item) {
+        super(item);
+
+        /**
+         * @const
+         */
+        this.minQuality = 0;
+    }
 
     update() {
         this.sellIn -= 1;
@@ -35,29 +37,37 @@ const normalExtendedItem = {
             return this.decreaseQuality(1);
         }
         this.decreaseQuality(2);
-    },
+    }
 
     /**
      * @param {Number}  number
      */
     decreaseQuality(number) {
         createEmptyArray(number)
-            .forEach(() => this.decreaseQualityByOne());
-    },
+            .forEach(() => this.quality -= 1);
+    }
 
-    decreaseQualityByOne() {
-        if (this.quality === this.minQuality) {
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
+        if (this._quality === this.minQuality) {
             return;
         }
-        this.quality -= 1;
+        this._quality = value;
     }
-};
+}
 
-const conjuredExtendedItem = {
-    /**
-     * @const
-     */
-    minQuality: 0,
+class ConjuredItem extends BaseItem {
+    constructor(item) {
+        super(item);
+
+        /**
+         * @const
+         */
+        this.minQuality = 0;
+    }
 
     update() {
         this.sellIn -= 1;
@@ -65,33 +75,49 @@ const conjuredExtendedItem = {
             return this.decreaseQuality(2);
         }
         this.decreaseQuality(4);
-    },
+    }
 
     /**
      * @param {Number}  number
      */
     decreaseQuality(number) {
         createEmptyArray(number)
-            .forEach(() => this.decreaseQualityByOne());
-    },
+            .forEach(() => this.quality -= 1);
+    }
 
-    decreaseQualityByOne() {
-        if (this.quality === this.minQuality) {
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
+        if (this._quality === this.minQuality) {
             return;
         }
-        this.quality -= 1;
+        this._quality = value;
     }
-};
+}
 
-const sulfurasExtendedItem = {
+class SulfurasItem extends BaseItem {
     update() {}
-};
 
-const agedBrieExtendedItem = {
-    /**
-     * @const
-     */
-    maxQuality: 50,
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
+        this._quality = value;
+    }
+}
+
+class AgedBrieItem extends BaseItem {
+    constructor(item) {
+        super(item);
+
+        /**
+         * @const
+         */
+        this.maxQuality = 50;
+    }
 
     update() {
         this.sellIn -= 1;
@@ -105,29 +131,37 @@ const agedBrieExtendedItem = {
             return this.increaseQuality(2);
         }
         this.increaseQuality(1);
-    },
+    }
 
     /**
      * @param {Number}  number
      */
     increaseQuality(number) {
         createEmptyArray(number)
-            .forEach(() => this.increaseQualityByOne());
-    },
+            .forEach(() => this.quality += 1);
+    }
 
-    increaseQualityByOne() {
-        if (this.quality === this.maxQuality) {
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
+        if (this._quality === this.maxQuality) {
             return;
         }
-        this.quality += 1;
+        this._quality = value;
     }
-};
+}
 
-const backstagePassesExtendedItem = {
-    /**
-     * @const
-     */
-    maxQuality: 50,
+class BackstagePassesItem extends BaseItem {
+    constructor(item) {
+        super(item);
+
+        /**
+         * @const
+         */
+        this.maxQuality = 50;
+    }
 
     update() {
         this.sellIn -= 1;
@@ -141,28 +175,32 @@ const backstagePassesExtendedItem = {
             return this.increaseQuality(2);
         }
         this.increaseQuality(1);
-    },
+    }
 
     /**
      * @param {Number}  number
      */
     increaseQuality(number) {
         createEmptyArray(number)
-            .forEach(() => this.increaseQualityByOne());
-    },
+            .forEach(() => this.quality += 1);
+    }
 
-    increaseQualityByOne() {
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
         if (this.quality === this.maxQuality) {
             return;
         }
-        this.quality += 1;
+        this._quality = value;
     }
-};
+}
 
 const GildedRose = {
     /**
      * @param   {Array.<Item>}          items
-     * @returns {Array.<ExtendedItem>}
+     * @returns {Array.<SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem>}
      */
     updateQuality(items) {
         return items
@@ -172,22 +210,22 @@ const GildedRose = {
 
     /**
      * @param   {Item}          item
-     * @returns {ExtendedItem}
+     * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
      */
     extendItem(item) {
         const itemNameToExtendedItem = {
-            'Sulfuras, Hand of Ragnaros': sulfurasExtendedItem,
-            'Aged Brie': agedBrieExtendedItem,
-            'Backstage passes to a TAFKAL80ETC concert': backstagePassesExtendedItem,
-            'Conjured': conjuredExtendedItem
+            'Sulfuras, Hand of Ragnaros': SulfurasItem,
+            'Aged Brie': AgedBrieItem,
+            'Backstage passes to a TAFKAL80ETC concert': BackstagePassesItem,
+            'Conjured': ConjuredItem
         };
-        const extendedItem = itemNameToExtendedItem[item.name] || normalExtendedItem;
-        return Object.assign({}, item, extendedItem);
+        const ExtendedItem = itemNameToExtendedItem[item.name] || NormalItem;
+        return new ExtendedItem(item);
     },
 
     /**
-     * @param   {ExtendedItem}  item
-     * @returns {ExtendedItem}
+     * @param   {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}  item
+     * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
      */
     updateItemQuality(item) {
         item.update();
