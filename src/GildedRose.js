@@ -236,28 +236,36 @@ class BackstagePassesItem extends BaseItem {
 
 const GildedRose = {
     /**
-     * @param   {Array.<Item>}          items
+     * @param   {Array.<Item>}  itemConfigs
      * @returns {Array.<SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem>}
      */
-    updateQuality(items) {
-        return items
-            .map(this.extendItem)
+    updateQuality(itemConfigs) {
+        return itemConfigs
+            .map(config => this.itemClassFactory(config))
             .map(this.updateItemQuality);
     },
 
     /**
-     * @param   {Item}          item
+     * @param   {Item} config
      * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
      */
-    extendItem(item) {
-        const itemNameToExtendedItem = {
+    itemClassFactory(config) {
+        const ItemClass = this.getItemClassForItemName(config.name);
+        return new ItemClass(config);
+    },
+
+    /**
+     * @param   {String}    name
+     * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
+     */
+    getItemClassForItemName(name) {
+        const itemNameToItemClass = {
             'Sulfuras, Hand of Ragnaros': SulfurasItem,
             'Aged Brie': AgedBrieItem,
             'Backstage passes to a TAFKAL80ETC concert': BackstagePassesItem,
             'Conjured': ConjuredItem
         };
-        const ExtendedItem = itemNameToExtendedItem[item.name] || NormalItem;
-        return new ExtendedItem(item);
+        return itemNameToItemClass[name] || NormalItem;
     },
 
     /**
