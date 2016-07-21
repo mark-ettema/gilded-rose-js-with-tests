@@ -14,16 +14,37 @@ function createEmptyArray(number) {
 }
 
 class BaseItem {
-    constructor(item) {
-        this.name = item.name;
-        this.sellIn = item.sellIn;
-        this._quality = item.quality;
+    /**
+     * @param {Item} config
+     */
+    constructor(config) {
+        /**
+         * @type {String}
+         */
+        this.name = config.name;
+
+        /**
+         * @type {Number}
+         */
+        this.sellIn = config.sellIn;
+
+        /**
+         * @type {Number}
+         * @private
+         */
+        this._quality = config.quality;
     }
 
+    /**
+     * @returns {Number}
+     */
     get quality() {
         return this._quality;
     }
 
+    /**
+     * @param {Number} value
+     */
     set quality(value) {
         this._quality = value;
     }
@@ -39,6 +60,9 @@ class NormalItem extends BaseItem {
         this.minQuality = 0;
     }
 
+    /**
+     * @public
+     */
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
@@ -47,10 +71,16 @@ class NormalItem extends BaseItem {
         this.quality -= 2;
     }
 
+    /**
+     * @returns {Number}
+     */
     get quality() {
         return this._quality;
     }
 
+    /**
+     * @param {Number} value
+     */
     set quality(value) {
         if (value > this.minQuality) {
             return this._quality = value;
@@ -60,8 +90,11 @@ class NormalItem extends BaseItem {
 }
 
 class ConjuredItem extends BaseItem {
-    constructor(item) {
-        super(item);
+    /**
+     * @param {Item} config
+     */
+    constructor(config) {
+        super(config);
 
         /**
          * @const
@@ -69,6 +102,9 @@ class ConjuredItem extends BaseItem {
         this.minQuality = 0;
     }
 
+    /**
+     * @public
+     */
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
@@ -77,10 +113,16 @@ class ConjuredItem extends BaseItem {
         this.quality -= 4;
     }
 
+    /**
+     * @returns {Number}
+     */
     get quality() {
         return this._quality;
     }
 
+    /**
+     * @param {Number} value
+     */
     set quality(value) {
         if (value > this.minQuality) {
             return this._quality = value;
@@ -90,12 +132,18 @@ class ConjuredItem extends BaseItem {
 }
 
 class SulfurasItem extends BaseItem {
+    /**
+     * @public
+     */
     update() {}
 }
 
 class AgedBrieItem extends BaseItem {
-    constructor(item) {
-        super(item);
+    /**
+     * @param {Item} config
+     */
+    constructor(config) {
+        super(config);
 
         /**
          * @const
@@ -103,6 +151,9 @@ class AgedBrieItem extends BaseItem {
         this.maxQuality = 50;
     }
 
+    /**
+     * @public
+     */
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
@@ -117,10 +168,16 @@ class AgedBrieItem extends BaseItem {
         this.quality += 1;
     }
 
+    /**
+     * @returns {Number}
+     */
     get quality() {
         return this._quality;
     }
 
+    /**
+     * @param {Number} value
+     */
     set quality(value) {
         if (value < this.maxQuality) {
             return this._quality = value;
@@ -130,8 +187,11 @@ class AgedBrieItem extends BaseItem {
 }
 
 class BackstagePassesItem extends BaseItem {
-    constructor(item) {
-        super(item);
+    /**
+     * @param {Item} config
+     */
+    constructor(config) {
+        super(config);
 
         /**
          * @const
@@ -139,6 +199,9 @@ class BackstagePassesItem extends BaseItem {
         this.maxQuality = 50;
     }
 
+    /**
+     * @public
+     */
     update() {
         this.sellIn -= 1;
         if (this.sellIn < 0) {
@@ -153,10 +216,16 @@ class BackstagePassesItem extends BaseItem {
         this.quality += 1;
     }
 
+    /**
+     * @returns {Number}
+     */
     get quality() {
         return this._quality;
     }
 
+    /**
+     * @param {Number} value
+     */
     set quality(value) {
         if (value < this.maxQuality) {
             return this._quality = value;
