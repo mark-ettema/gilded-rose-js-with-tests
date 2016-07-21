@@ -1,5 +1,5 @@
 /**
- * @typedef     {Object}    Item
+ * @typedef     {Object}    ItemConfig
  * @property    {String}    name
  * @property    {Number}    sellIn
  * @property    {Number}    quality
@@ -15,7 +15,7 @@ function createEmptyArray(number) {
 
 class BaseItem {
     /**
-     * @param {Item} config
+     * @param {ItemConfig} config
      */
     constructor(config) {
         /**
@@ -51,8 +51,11 @@ class BaseItem {
 }
 
 class NormalItem extends BaseItem {
-    constructor(item) {
-        super(item);
+    /**
+     * @param {ItemConfig} config
+     */
+    constructor(config) {
+        super(config);
 
         /**
          * @const
@@ -91,7 +94,7 @@ class NormalItem extends BaseItem {
 
 class ConjuredItem extends BaseItem {
     /**
-     * @param {Item} config
+     * @param {ItemConfig} config
      */
     constructor(config) {
         super(config);
@@ -140,7 +143,7 @@ class SulfurasItem extends BaseItem {
 
 class AgedBrieItem extends BaseItem {
     /**
-     * @param {Item} config
+     * @param {ItemConfig} config
      */
     constructor(config) {
         super(config);
@@ -188,7 +191,7 @@ class AgedBrieItem extends BaseItem {
 
 class BackstagePassesItem extends BaseItem {
     /**
-     * @param {Item} config
+     * @param {ItemConfig} config
      */
     constructor(config) {
         super(config);
@@ -236,7 +239,7 @@ class BackstagePassesItem extends BaseItem {
 
 const GildedRose = {
     /**
-     * @param   {Array.<Item>}  itemConfigs
+     * @param   {Array.<ItemConfig>}  itemConfigs
      * @returns {Array.<SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem>}
      */
     updateQuality(itemConfigs) {
@@ -246,7 +249,7 @@ const GildedRose = {
     },
 
     /**
-     * @param   {Item} config
+     * @param   {ItemConfig} config
      * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
      */
     itemClassFactory(config) {
