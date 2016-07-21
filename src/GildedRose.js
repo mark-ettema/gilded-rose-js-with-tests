@@ -19,6 +19,14 @@ class BaseItem {
         this.sellIn = item.sellIn;
         this._quality = item.quality;
     }
+
+    get quality() {
+        return this._quality;
+    }
+
+    set quality(value) {
+        this._quality = value;
+    }
 }
 
 class NormalItem extends BaseItem {
@@ -83,14 +91,6 @@ class ConjuredItem extends BaseItem {
 
 class SulfurasItem extends BaseItem {
     update() {}
-
-    get quality() {
-        return this._quality;
-    }
-
-    set quality(value) {
-        this._quality = value;
-    }
 }
 
 class AgedBrieItem extends BaseItem {
