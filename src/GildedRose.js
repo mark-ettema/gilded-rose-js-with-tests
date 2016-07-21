@@ -34,17 +34,9 @@ class NormalItem extends BaseItem {
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
-            return this.decreaseQuality(1);
+            return this.quality -= 1;
         }
-        this.decreaseQuality(2);
-    }
-
-    /**
-     * @param {Number}  number
-     */
-    decreaseQuality(number) {
-        createEmptyArray(number)
-            .forEach(() => this.quality -= 1);
+        this.quality -= 2;
     }
 
     get quality() {
@@ -52,10 +44,10 @@ class NormalItem extends BaseItem {
     }
 
     set quality(value) {
-        if (this._quality === this.minQuality) {
-            return;
+        if (value > this.minQuality) {
+            return this._quality = value;
         }
-        this._quality = value;
+        this._quality = this.minQuality;
     }
 }
 
@@ -72,17 +64,9 @@ class ConjuredItem extends BaseItem {
     update() {
         this.sellIn -= 1;
         if (this.sellIn > 0) {
-            return this.decreaseQuality(2);
+            return this.quality -= 2;
         }
-        this.decreaseQuality(4);
-    }
-
-    /**
-     * @param {Number}  number
-     */
-    decreaseQuality(number) {
-        createEmptyArray(number)
-            .forEach(() => this.quality -= 1);
+        this.quality -= 4;
     }
 
     get quality() {
@@ -90,10 +74,10 @@ class ConjuredItem extends BaseItem {
     }
 
     set quality(value) {
-        if (this._quality === this.minQuality) {
-            return;
+        if (value > this.minQuality) {
+            return this._quality = value;
         }
-        this._quality = value;
+        this._quality = this.minQuality;
     }
 }
 
@@ -125,20 +109,12 @@ class AgedBrieItem extends BaseItem {
             return this.quality = 0;
         }
         if (this.sellIn < 6) {
-            return this.increaseQuality(3);
+            return this.quality += 3;
         }
         if (this.sellIn < 11) {
-            return this.increaseQuality(2);
+            return this.quality += 2;
         }
-        this.increaseQuality(1);
-    }
-
-    /**
-     * @param {Number}  number
-     */
-    increaseQuality(number) {
-        createEmptyArray(number)
-            .forEach(() => this.quality += 1);
+        this.quality += 1;
     }
 
     get quality() {
@@ -146,10 +122,10 @@ class AgedBrieItem extends BaseItem {
     }
 
     set quality(value) {
-        if (this._quality === this.maxQuality) {
-            return;
+        if (value < this.maxQuality) {
+            return this._quality = value;
         }
-        this._quality = value;
+        this._quality = this.maxQuality;
     }
 }
 
@@ -169,20 +145,12 @@ class BackstagePassesItem extends BaseItem {
             return this.quality = 0;
         }
         if (this.sellIn < 6) {
-            return this.increaseQuality(3);
+            return this.quality += 3;
         }
         if (this.sellIn < 11) {
-            return this.increaseQuality(2);
+            return this.quality += 2;
         }
-        this.increaseQuality(1);
-    }
-
-    /**
-     * @param {Number}  number
-     */
-    increaseQuality(number) {
-        createEmptyArray(number)
-            .forEach(() => this.quality += 1);
+        this.quality += 1;
     }
 
     get quality() {
@@ -190,10 +158,10 @@ class BackstagePassesItem extends BaseItem {
     }
 
     set quality(value) {
-        if (this.quality === this.maxQuality) {
-            return;
+        if (value < this.maxQuality) {
+            return this._quality = value;
         }
-        this._quality = value;
+        this._quality = this.maxQuality;
     }
 }
 
