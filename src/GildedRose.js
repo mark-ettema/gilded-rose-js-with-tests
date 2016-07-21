@@ -13,6 +13,18 @@ function createEmptyArray(number) {
     return new Array(number).fill(undefined);
 }
 
+function isLowerThan(max, number) {
+    return number < max;
+}
+
+function isGreaterThan(min, number) {
+    return number > min;
+}
+
+function isBetween(min, max, number) {
+    return isGreaterThan(min, number ) && isLowerThan(max, number);
+}
+
 class BaseItem {
     /**
      * @param {ItemConfig} config
@@ -171,16 +183,18 @@ class AgedBrieItem extends BaseItem {
     }
 
     onSellInChanged() {
-        if (this.sellIn < 0) {
-            return this.quality = 0;
+        if (isLowerThan(0, this.sellIn)) {
+            this.quality = 0;
         }
-        if (this.sellIn < 6) {
-            return this.quality += 3;
+        if (isBetween(0, 6, this.sellIn)) {
+            this.quality += 3;
         }
-        if (this.sellIn < 11) {
-            return this.quality += 2;
+        if (isBetween(6, 11, this.sellIn)) {
+            this.quality += 2;
         }
-        this.quality += 1;
+        if (isGreaterThan(11, this.sellIn)) {
+            this.quality += 1;
+        }
     }
 
     /**
@@ -215,16 +229,18 @@ class BackstagePassesItem extends BaseItem {
     }
 
     onSellInChanged() {
-        if (this.sellIn < 0) {
-            return this.quality = 0;
+        if (isLowerThan(0, this.sellIn)) {
+            this.quality = 0;
         }
-        if (this.sellIn < 6) {
-            return this.quality += 3;
+        if (isBetween(0, 6, this.sellIn)) {
+            this.quality += 3;
         }
-        if (this.sellIn < 11) {
-            return this.quality += 2;
+        if (isBetween(6, 11, this.sellIn)) {
+            this.quality += 2;
         }
-        this.quality += 1;
+        if (isGreaterThan(11, this.sellIn)) {
+            this.quality += 1;
+        }
     }
 
     /**
