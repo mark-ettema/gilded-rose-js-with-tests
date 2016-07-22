@@ -183,18 +183,40 @@ class AgedBrieItem extends BaseItem {
     }
 
     onSellInChanged() {
-        if (isLowerThan(0, this.sellIn)) {
-            this.quality = 0;
-        }
-        if (isBetween(0, 6, this.sellIn)) {
-            this.quality += 3;
-        }
-        if (isBetween(6, 11, this.sellIn)) {
-            this.quality += 2;
-        }
-        if (isGreaterThan(11, this.sellIn)) {
-            this.quality += 1;
-        }
+        this.quality = new Map()
+            .set(this.isSellInLowerThan0(), 0)
+            .set(this.isSellInBetween0And6(), this.quality + 3)
+            .set(this.isSellInBetween6And11(), this.quality + 2)
+            .set(this.isSellInGreaterThan11(), this.quality + 1)
+            .get(true);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInLowerThan0() {
+        return isLowerThan(0, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInBetween0And6() {
+        return isBetween(0, 6, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInBetween6And11() {
+        return isBetween(6, 11, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInGreaterThan11() {
+        return isGreaterThan(11, this.sellIn);
     }
 
     /**
@@ -229,18 +251,40 @@ class BackstagePassesItem extends BaseItem {
     }
 
     onSellInChanged() {
-        if (isLowerThan(0, this.sellIn)) {
-            this.quality = 0;
-        }
-        if (isBetween(0, 6, this.sellIn)) {
-            this.quality += 3;
-        }
-        if (isBetween(6, 11, this.sellIn)) {
-            this.quality += 2;
-        }
-        if (isGreaterThan(11, this.sellIn)) {
-            this.quality += 1;
-        }
+        this.quality = new Map()
+            .set(this.isSellInLowerThan0(), 0)
+            .set(this.isSellInBetween0And6(), this.quality + 3)
+            .set(this.isSellInBetween6And11(), this.quality + 2)
+            .set(this.isSellInGreaterThan11(), this.quality + 1)
+            .get(true);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInLowerThan0() {
+        return isLowerThan(0, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInBetween0And6() {
+        return isBetween(0, 6, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInBetween6And11() {
+        return isBetween(6, 11, this.sellIn);
+    }
+
+    /**
+     * @returns {Boolean}
+     */
+    isSellInGreaterThan11() {
+        return isGreaterThan(11, this.sellIn);
     }
 
     /**
