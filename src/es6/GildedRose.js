@@ -305,7 +305,7 @@ class BackstagePassesItem extends BaseItem {
     }
 }
 
-const GildedRose = {
+export default {
     /**
      * @param   {Array.<ItemConfig>}  itemConfigs
      * @returns {Array.<SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem>}
