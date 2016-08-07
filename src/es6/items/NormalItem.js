@@ -31,9 +31,6 @@ export default class NormalItem extends BaseItem {
      * @param {Number} value
      */
     set quality(value) {
-        if (value > this.minQuality) {
-            return this._quality = value;
-        }
-        this._quality = this.minQuality;
+        this._quality = Math.max(value, this.minQuality);
     }
 }

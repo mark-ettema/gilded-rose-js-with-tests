@@ -62,9 +62,6 @@ export default class AgedBrieItem extends BaseItem {
      * @param {Number} value
      */
     set quality(value) {
-        if (value < this.maxQuality) {
-            return this._quality = value;
-        }
-        this._quality = this.maxQuality;
+        this._quality = Math.min(value, this.maxQuality);
     }
 }
