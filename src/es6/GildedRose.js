@@ -15,15 +15,6 @@ export default {
     updateQuality(itemConfigs) {
         return itemConfigs
             .map(config => ItemFactory.createItem(config))
-            .map(this.updateItemQuality);
-    },
-
-    /**
-     * @param   {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}  item
-     * @returns {SulfurasItem|AgedBrieItem|BackstagePassesItem|NormalItem}
-     */
-    updateItemQuality(item) {
-        item.update();
-        return item;
+            .map(item => (item.update(), item));
     }
 };
